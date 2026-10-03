@@ -50,7 +50,7 @@ export default function Dashboard({ initialUser, initialProducts = [] }) {
           <span>Smart Price Intelligence • Real-Time Deal Tracker</span>
         </div>
         <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight">
-          Never miss a price drop again
+          Never Miss a Price Drop Again
         </h1>
         <p className="text-base sm:text-lg text-gray-600 mt-4 leading-relaxed">
           Paste any product URL to automatically extract details, track price changes over time, and view historical trend graphs.
