@@ -11,9 +11,9 @@ export const metadata = {
   title: "PriceDrop - Smart Price History Tracker",
   description: "Track prices from any e-commerce site. Get instant alerts when prices drop.",
   icons: {
-    icon: "/deal-drop-logo.png",
-    shortcut: "/deal-drop-logo.png",
-    apple: "/deal-drop-logo.png",
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
   },
 };
 
