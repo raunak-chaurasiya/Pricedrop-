@@ -61,6 +61,7 @@ export default async function Home() {
           <p className="text-gray-400">
             Real-Time Price Monitoring & Instant Price Drop Alerts
           </p>
+
         </div>
       </footer>
     </main>
