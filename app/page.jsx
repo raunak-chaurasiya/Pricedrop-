@@ -1,7 +1,9 @@
 import Image from "next/image";
 import AuthButton from "@/components/ui/AuthButton";
 import Dashboard from "@/components/ui/Dashboard";
+import FaqSection from "@/components/ui/FaqSection";
 import { createClient } from "@/utils/supabase/server";
+import { Mail } from "lucide-react";
 
 export const revalidate = 0;
 
@@ -52,16 +54,31 @@ export default async function Home() {
         />
       </section>
 
-      {/* Professional Footer */}
-      <footer className="mt-auto border-t border-gray-200/60 bg-white/60 py-6 text-center text-xs text-gray-500">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="font-medium text-gray-600">
-            © {new Date().getFullYear()} PriceDrop • Smart Price Tracker for Amazon, Flipkart & Top Stores
-          </p>
-          <p className="text-gray-400">
-            Real-Time Price Monitoring & Instant Price Drop Alerts
-          </p>
+      {/* FAQ Section */}
+      <FaqSection />
 
+      {/* Professional Footer */}
+      <footer className="mt-auto border-t border-gray-200/60 bg-white/70 backdrop-blur-xs py-6 text-xs text-gray-500">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex flex-col items-center md:items-start gap-1 text-center md:text-left">
+            <p className="font-semibold text-gray-700">
+              © {new Date().getFullYear()} PriceDrop • Smart Price Tracker
+            </p>
+            <p className="text-gray-400">
+              Real-Time Price Monitoring & Instant Price Drop Alerts for Amazon, Flipkart & Top Stores
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 bg-orange-50/80 border border-orange-200/70 px-3.5 py-1.5 rounded-full text-xs text-gray-600 shadow-2xs">
+            <span className="text-gray-500 font-normal">Questions or feedback?</span>
+            <a
+              href="mailto:dealdrop58@gmail.com?subject=PriceDrop%20Support%20%26%20Query"
+              className="inline-flex items-center gap-1.5 font-medium text-orange-600 hover:text-orange-700 hover:underline transition-colors"
+            >
+              <Mail className="w-3.5 h-3.5" />
+              <span>dealdrop58@gmail.com</span>
+            </a>
+          </div>
         </div>
       </footer>
     </main>
