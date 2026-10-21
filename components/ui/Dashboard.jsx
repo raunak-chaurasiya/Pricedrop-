@@ -1,13 +1,38 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AddproductForm from "@/components/ui/AddproductForm";
 import ProductCard from "@/components/ui/ProductCard";
 import { Rabbit, Shield, Bell, PackageOpen, Sparkles } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
 
 export default function Dashboard({ initialUser, initialProducts = [] }) {
   const [user, setUser] = useState(initialUser);
   const [products, setProducts] = useState(initialProducts);
+
+  useEffect(() => {
+    setUser(initialUser);
+    setProducts(initialProducts);
+  }, [initialUser, initialProducts]);
+
+  useEffect(() => {
+    const supabase = createClient();
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_OUT") {
+        setUser(null);
+        setProducts([]);
+      } else if (event === "SIGNED_IN" || event === "USER_UPDATED") {
+        setUser(session?.user ?? null);
+      }
+    });
+
+    return () => {
+
+      subscription?.unsubscribe();
+    };
+  }, []);
 
   const handleProductAdded = (newProduct) => {
     setProducts((prev) => [newProduct, ...prev]);

@@ -171,6 +171,8 @@ export default function ProductCard({ product, onProductUpdated, onProductDelete
         product={product}
         isOpen={showHistory}
         onClose={() => setShowHistory(false)}
+        onRefresh={handleRefresh}
+        refreshing={refreshing}
       />
     </>
   );

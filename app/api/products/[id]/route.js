@@ -59,17 +59,29 @@ export async function POST(request, { params }) {
     const lowest_price = product.lowest_price ? Math.min(product.lowest_price, newPrice) : newPrice;
     const highest_price = product.highest_price ? Math.max(product.highest_price, newPrice) : newPrice;
 
+    const updatePayload = {
+      current_price: newPrice,
+      lowest_price,
+      highest_price,
+      updated_at: new Date().toISOString(),
+    };
+
+    if (extracted.images && extracted.images.length > 0) {
+      updatePayload.images = extracted.images;
+    }
+    if (extracted.features && extracted.features.length > 0) {
+      updatePayload.features = extracted.features;
+    }
+    if (extracted.image_url && !product.image_url) {
+      updatePayload.image_url = extracted.image_url;
+    }
+
     // 3. Update product
     const { data: updatedProduct, error: updateError } = await supabase
       .from('products')
-      .update({
-        current_price: newPrice,
-        lowest_price,
-        highest_price,
-        updated_at: new Date().toISOString(),
-      })
+      .update(updatePayload)
       .eq('id', id)
-      .select()
+      .select(`*, price_history (*)`)
       .single();
 
     if (updateError) {

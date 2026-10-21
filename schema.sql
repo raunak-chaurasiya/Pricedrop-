@@ -5,6 +5,8 @@ CREATE TABLE IF NOT EXISTS public.products (
   url TEXT NOT NULL,
   title TEXT NOT NULL,
   image_url TEXT,
+  images JSONB DEFAULT '[]'::jsonb,
+  features JSONB DEFAULT '[]'::jsonb,
   current_price NUMERIC NOT NULL,
   currency TEXT DEFAULT '₹',
   lowest_price NUMERIC,

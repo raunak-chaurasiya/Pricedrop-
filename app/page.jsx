@@ -45,7 +45,11 @@ export default async function Home() {
 
       {/* Main Content Area */}
       <section className="py-12 sm:py-16 px-4 sm:px-6">
-        <Dashboard initialUser={user} initialProducts={products} />
+        <Dashboard
+          key={user?.id || "guest"}
+          initialUser={user}
+          initialProducts={products}
+        />
       </section>
 
       {/* Professional Footer */}
