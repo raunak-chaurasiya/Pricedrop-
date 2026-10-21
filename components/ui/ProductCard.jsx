@@ -11,15 +11,18 @@ import {
   TrendingUp,
   LineChart,
   Sparkles,
+  Share2,
 } from "lucide-react";
 import { toast } from "sonner";
 import PriceHistoryModal from "@/components/ui/PriceHistoryChart";
+import ShareDealModal from "@/components/ui/ShareDealModal";
 import { calculateDealVerdict } from "@/lib/dealAnalysis";
 
 export default function ProductCard({ product, onProductUpdated, onProductDeleted }) {
   const [refreshing, setRefreshing] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
+  const [showShare, setShowShare] = useState(false);
 
   const currentPrice = Number(product.current_price);
   const lowestPrice = product.lowest_price ? Number(product.lowest_price) : currentPrice;
@@ -164,6 +167,16 @@ export default function ProductCard({ product, onProductUpdated, onProductDelete
             <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? "animate-spin text-orange-500" : ""}`} />
           </Button>
 
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setShowShare(true)}
+            className="h-8 w-8 text-gray-500 hover:text-orange-600 hover:bg-orange-50"
+            title="Share Deal Card"
+          >
+            <Share2 className="w-3.5 h-3.5" />
+          </Button>
+
           <a
             href={product.url}
             target="_blank"
@@ -193,6 +206,12 @@ export default function ProductCard({ product, onProductUpdated, onProductDelete
         onClose={() => setShowHistory(false)}
         onRefresh={handleRefresh}
         refreshing={refreshing}
+      />
+
+      <ShareDealModal
+        product={product}
+        isOpen={showShare}
+        onClose={() => setShowShare(false)}
       />
     </>
   );

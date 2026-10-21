@@ -32,9 +32,11 @@ import {
   RefreshCw,
   ShoppingBag,
   PackageOpen,
+  Share2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { calculateDealVerdict } from "@/lib/dealAnalysis";
+import ShareDealModal from "@/components/ui/ShareDealModal";
 
 export default function PriceHistoryModal({
   product,
@@ -46,6 +48,7 @@ export default function PriceHistoryModal({
   const [activeTab, setActiveTab] = useState("chart"); // 'chart', 'gallery', 'features'
   const [timeframe, setTimeframe] = useState("MAX"); // '1M', '3M', '6M', 'MAX'
   const [selectedImageIdx, setSelectedImageIdx] = useState(0);
+  const [showShare, setShowShare] = useState(false);
 
   if (!product) return null;
 
@@ -143,7 +146,8 @@ export default function PriceHistoryModal({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <>
+      <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="w-[95vw] sm:max-w-3xl max-h-[90vh] overflow-y-auto bg-white border border-gray-100 shadow-2xl rounded-2xl p-4 sm:p-7">
         <DialogHeader className="space-y-3">
           {/* Top Bar: Tabs & Action Links */}
@@ -231,6 +235,17 @@ export default function PriceHistoryModal({
                 <span>Store</span>
                 <ExternalLink className="w-3 h-3 opacity-60" />
               </a>
+
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowShare(true)}
+                className="h-8 px-2.5 text-xs text-gray-600 hover:text-orange-600 hover:bg-orange-50 gap-1.5 cursor-pointer"
+                title="Share Deal Card"
+              >
+                <Share2 className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Share</span>
+              </Button>
             </div>
           </div>
 
@@ -628,5 +643,12 @@ export default function PriceHistoryModal({
         )}
       </DialogContent>
     </Dialog>
+
+    <ShareDealModal
+      product={product}
+      isOpen={showShare}
+      onClose={() => setShowShare(false)}
+    />
+  </>
   );
 }
