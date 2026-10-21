@@ -145,15 +145,15 @@ export default function ProductCard({ product, onProductUpdated, onProductDelete
         </div>
 
         {/* Footer Actions */}
-        <div className="px-5 py-3 bg-gray-50/50 border-t border-gray-100 flex items-center justify-between gap-2">
+        <div className="px-3 sm:px-5 py-2.5 sm:py-3 bg-gray-50/50 border-t border-gray-100 flex items-center justify-between gap-1 sm:gap-2">
           <Button
             variant="outline"
             size="sm"
             onClick={() => setShowHistory(true)}
-            className="text-xs text-gray-700 border-gray-200 hover:bg-orange-50 hover:text-orange-600 gap-1.5 flex-1"
+            className="text-xs text-gray-700 border-gray-200 hover:bg-orange-50 hover:text-orange-600 gap-1 sm:gap-1.5 flex-1 min-w-0 truncate"
           >
-            <LineChart className="w-3.5 h-3.5" />
-            History
+            <LineChart className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate">History</span>
           </Button>
 
           <Button

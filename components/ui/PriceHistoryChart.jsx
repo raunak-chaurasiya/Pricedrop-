@@ -434,30 +434,30 @@ export default function PriceHistoryModal({
             </div>
 
             {/* Quick Stats Cards */}
-            <div className="grid grid-cols-3 gap-2 sm:gap-3 my-3">
-              <div className="bg-orange-50/70 p-2.5 sm:p-3.5 rounded-xl border border-orange-100 text-left">
-                <span className="text-[10px] sm:text-xs text-gray-500 font-medium block">
+            <div className="grid grid-cols-3 gap-1.5 sm:gap-3 my-3">
+              <div className="bg-orange-50/70 p-2 sm:p-3.5 rounded-xl border border-orange-100 text-left min-w-0">
+                <span className="text-[10px] sm:text-xs text-gray-500 font-medium block truncate">
                   Current
                 </span>
-                <p className="text-base sm:text-xl font-black text-gray-900 mt-0.5">
+                <p className="text-sm sm:text-xl font-black text-gray-900 mt-0.5 truncate">
                   {product.currency}
                   {currentPrice.toLocaleString("en-IN")}
                 </p>
               </div>
-              <div className="bg-emerald-50/70 p-2.5 sm:p-3.5 rounded-xl border border-emerald-100 text-left">
-                <span className="text-[10px] sm:text-xs text-gray-500 font-medium block">
+              <div className="bg-emerald-50/70 p-2 sm:p-3.5 rounded-xl border border-emerald-100 text-left min-w-0">
+                <span className="text-[10px] sm:text-xs text-gray-500 font-medium block truncate">
                   Lowest
                 </span>
-                <p className="text-base sm:text-xl font-black text-emerald-700 mt-0.5">
+                <p className="text-sm sm:text-xl font-black text-emerald-700 mt-0.5 truncate">
                   {product.currency}
                   {minPrice.toLocaleString("en-IN")}
                 </p>
               </div>
-              <div className="bg-rose-50/70 p-2.5 sm:p-3.5 rounded-xl border border-rose-100 text-left">
-                <span className="text-[10px] sm:text-xs text-gray-500 font-medium block">
+              <div className="bg-rose-50/70 p-2 sm:p-3.5 rounded-xl border border-rose-100 text-left min-w-0">
+                <span className="text-[10px] sm:text-xs text-gray-500 font-medium block truncate">
                   Highest
                 </span>
-                <p className="text-base sm:text-xl font-black text-rose-700 mt-0.5">
+                <p className="text-sm sm:text-xl font-black text-rose-700 mt-0.5 truncate">
                   {product.currency}
                   {maxPrice.toLocaleString("en-IN")}
                 </p>

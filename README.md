@@ -1,14 +1,15 @@
 <div align="center">
 
-# 📉 PriceDrop - Smart Price History Tracker
+# 📉 PriceDrop - Smart Price History Tracker & Deal Intelligence
 
-**Never overpay again. Track prices from Amazon, Flipkart & top stores with real-time drop alerts and interactive price history charts.**
+**Never overpay again. Track real-time prices from Amazon, Flipkart & top stores with AI-powered "Buy or Wait" verdicts, multi-timeframe history charts, product specifications, alternative deals, and 1-click social share cards.**
 
 [![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-pricedrop--sable.vercel.app-ff6b00?style=for-the-badge)](https://pricedrop-sable.vercel.app/)
 [![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
+[![Firecrawl](https://img.shields.io/badge/Firecrawl_v2-FF4F00?style=for-the-badge&logo=firecrawl&logoColor=white)](https://firecrawl.dev/)
 [![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://pricedrop-sable.vercel.app/)
 
 <br />
@@ -21,21 +22,52 @@
 
 ## 🌟 Overview
 
-**PriceDrop** is a full-stack, automated price monitoring web application designed to help smart shoppers save money. Paste any product link from popular e-commerce platforms (Amazon, Flipkart, Myntra, etc.), and PriceDrop automatically extracts product details, monitors price fluctuations, visualizes historical price trends, and notifies you when the price drops below your target.
-
-Built with **Next.js 16 (App Router)**, **Supabase PostgreSQL & Auth**, **Firecrawl AI Scraping**, and **Recharts**.
+**PriceDrop** is an automated price monitoring and deal intelligence web application engineered to give shoppers complete transparency into e-commerce price movements. Simply paste any product link from popular stores (Amazon, Flipkart, Myntra, etc.), and PriceDrop extracts product data, analyzes price history, computes an AI Deal Score, and advises whether it's a great time to buy or wait for the next sale.
 
 ---
 
-## ✨ Key Features
+## ✨ Flagship Features
 
-- **🔗 Instant Product Scraper**: Paste any product URL — powered by Firecrawl API to extract titles, current prices, images, and merchant data reliably without getting blocked.
-- **📊 Interactive Price History Graph**: BuyHatke-style interactive timeline powered by Recharts displaying Lowest Price, Highest Price, and Price Trend over time.
-- **🔔 Automated Price Drop Monitoring**: Background Vercel Cron jobs periodically re-check tracked products and flag drops in price.
-- **🔐 Passwordless Magic Link Auth**: Seamless user sign-in via Supabase Auth with custom-styled branded emails.
-- **🎯 Custom Target Price**: Set your dream price threshold for individual products.
-- **⚡ Real-Time Responsive UI**: Clean, modern aesthetics crafted with Tailwind CSS v4, smooth animations, Lucide icons, and Sonner toast alerts.
-- **📱 Fully Mobile Responsive**: Engineered for a flawless experience across smartphones, tablets, and desktops.
+### 1. 🤖 AI "Buy or Wait?" Smart Verdict & Deal Score
+- **Algorithmic Deal Score (0 to 100)**: Calculates exact market price position relative to all-time low and all-time high records.
+- **Smart Verdict Badges**:
+  - 🟢 **Buy Now (Score: 85–100)**: Current price is at or within 5% of its all-time record low.
+  - 🟡 **Fair Price (Score: 55–84)**: Price is in a reasonable mid-bracket.
+  - 🔴 **Wait & Watch (Score: 0–54)**: Product is near its peak price; discount expected soon.
+- **Natural Language Insights**: Shows actual rupee calculations (e.g., *"₹7,000 below peak, but has historically reached ₹92,000 during sales"*).
+
+### 2. 📊 Interactive Multi-Timeframe Price History Chart
+- **Timeframe Filters**: Switch dynamically between **1M**, **3M**, **6M**, and **MAX** history views.
+- **Stats Cards**: Live display of Current Price, All-Time Lowest, and All-Time Highest.
+- **Trend Detection**: Instant calculation of rupee drops or increases with animated trend banners.
+- Built with **Recharts AreaChart** with responsive gradients and custom tooltips.
+
+### 3. 🖼️ Multi-Photo Product Gallery
+- Automatically extracts multiple high-resolution photos and angle shots from the product page.
+- Interactive image viewer with thumbnail selector, image counter, and next/previous controls.
+
+### 4. 📋 Key Specifications & Highlights
+- Automated AI extraction of technical bullet points, features, and product specifications.
+- Clean presentation with icon checkmarks and formatted cards.
+
+### 5. ⚖️ Similar & Alternative Products Engine
+- Same-page scraping of competitor and alternative products from *"Similar products"* and *"Customers also viewed"* sections without extra API overhead.
+- Live price comparison badges (e.g., 🟢 `₹1,200 Cheaper` or `₹800 Higher`).
+- **1-Click "+ Track" Button**: Instantly adds the alternative product to your own dashboard with a single click.
+
+### 6. 📸 1-Click "Deal Card" Share (WhatsApp & PNG Download)
+- **Visual Story Card (4:5 Ratio)**: Optimized for Instagram Stories, WhatsApp Status, and Twitter.
+- **WhatsApp Direct Share**: 1-click sharing with pre-formatted bold headings, price breakdown, and store link.
+- **Client-Side PNG Download**: HTML5 Canvas engine dynamically renders a high-resolution dark-mode deal card directly in the browser with zero server latency.
+- **Native Share Sheet**: Triggers native iOS / Android share sheet on mobile devices.
+
+### 7. 🔔 Background Automated Price Refresh
+- Background Cron endpoint (`/api/cron/track`) designed for automated Vercel Cron executions.
+- Records chronological price history points and updates lowest/highest price baselines.
+
+### 8. 📱 100% Mobile Responsive & Modern Aesthetics
+- Built with Tailwind CSS v4 and fluid typography.
+- Optimized for all screen sizes from 320px mobile devices to 4K ultra-wide monitors.
 
 ---
 
@@ -48,154 +80,131 @@ Built with **Next.js 16 (App Router)**, **Supabase PostgreSQL & Auth**, **Firecr
 | **Styling** | [Tailwind CSS v4](https://tailwindcss.com/) + `@base-ui/react` |
 | **Charts & Data Viz** | [Recharts](https://recharts.org/) |
 | **Database & Auth** | [Supabase](https://supabase.com/) (PostgreSQL & SSR Auth) |
-| **Web Scraping** | [Firecrawl JS SDK](https://firecrawl.dev/) |
+| **Web Scraping** | [Firecrawl JS SDK](https://firecrawl.dev/) (v2 AI Scrape) |
 | **Notifications** | [Sonner Toast](https://sonner.emilkowal.ski/) |
 | **Icons** | [Lucide React](https://lucide.dev/) |
 | **Hosting & CI/CD** | [Vercel](https://vercel.com/) |
 
 ---
 
-## 🚀 Live Demo
+## 🗄️ Database Schema (Supabase PostgreSQL)
 
-Experience PriceDrop in action:  
-👉 **[https://pricedrop-sable.vercel.app/](https://pricedrop-sable.vercel.app/)**
+```sql
+-- 1. Products Table
+CREATE TABLE IF NOT EXISTS public.products (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  url TEXT NOT NULL,
+  title TEXT NOT NULL,
+  image_url TEXT,
+  images JSONB DEFAULT '[]'::jsonb,
+  features JSONB DEFAULT '[]'::jsonb,
+  similar_products JSONB DEFAULT '[]'::jsonb,
+  current_price NUMERIC NOT NULL,
+  currency TEXT DEFAULT '₹',
+  lowest_price NUMERIC,
+  highest_price NUMERIC,
+  created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
+  updated_at TIMESTAMPTZ DEFAULT now() NOT NULL
+);
+
+-- 2. Price History Table
+CREATE TABLE IF NOT EXISTS public.price_history (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  product_id UUID REFERENCES public.products(id) ON DELETE CASCADE NOT NULL,
+  price NUMERIC NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now() NOT NULL
+);
+
+-- 3. Indexes for Speed
+CREATE INDEX IF NOT EXISTS idx_products_user_id ON public.products(user_id);
+CREATE INDEX IF NOT EXISTS idx_price_history_product_id ON public.price_history(product_id);
+CREATE INDEX IF NOT EXISTS idx_price_history_created_at ON public.price_history(created_at ASC);
+
+-- 4. Enable Row Level Security (RLS)
+ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.price_history ENABLE ROW LEVEL SECURITY;
+```
 
 ---
 
 ## ⚙️ Getting Started Locally
 
-Follow these steps to run PriceDrop on your local machine:
-
 ### 1. Prerequisites
-
-- [Node.js](https://nodejs.org/) (version 18.17+ or 20+ recommended)
+- [Node.js](https://nodejs.org/) (version 18+ or 20+ recommended)
 - [Git](https://git-scm.com/)
 - [Supabase](https://supabase.com/) account (free tier)
 - [Firecrawl](https://firecrawl.dev/) API Key (free tier)
 
 ### 2. Clone the Repository
-
 ```bash
 git clone https://github.com/raunak-chaurasiya/Pricedrop-.git
 cd Pricedrop-
 ```
 
 ### 3. Install Dependencies
-
 ```bash
 npm install
 ```
 
 ### 4. Setup Environment Variables
-
-Create a `.env` file in the project root by copying the template:
-
-```bash
-cp .env.example .env
-```
-
-Populate `.env` with your credentials:
-
+Create a `.env` file in the root directory:
 ```env
-# Firecrawl API Key (https://firecrawl.dev)
-FIRECRAWL_API=your_firecrawl_api_key
-
-# Supabase Project Credentials (https://supabase.com)
+# Supabase Configuration
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_supabase_publishable_or_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 
-# Cron Secret for securing /api/cron/track
-CRON_SECRET=your_random_secret_string
+# Firecrawl API Key (https://firecrawl.dev)
+FIRECRAWL_API_KEY=fc-your-api-key
 
-# Optional: Google OAuth
-CLIENT_ID=your_google_client_id
-CLIENT_SECRET=your_google_client_secret
+# Cron Job Secret (Optional)
+CRON_SECRET=your-secure-random-secret
 ```
 
-### 5. Setup Database Tables
-
-Execute the SQL script located in [`schema.sql`](./schema.sql) in your **Supabase SQL Editor**:
-
-```sql
--- Creates products table and price_history table with RLS policies
--- See schema.sql for complete definitions
-```
-
-### 6. Run Development Server
-
+### 5. Run the Local Development Server
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 📂 Project Architecture
+## 📁 Project Architecture
 
-```plaintext
+```
+pricdrop/
 ├── app/
 │   ├── api/
-│   │   ├── cron/track/      # Automated price tracking cron handler
-│   │   ├── products/        # Product scraping, listing & management endpoints
-│   │   └── products/[id]/   # Product update / delete endpoints
-│   ├── auth/callback/       # Supabase OAuth / Magic link redirect handler
-│   ├── globals.css          # Tailwind CSS configuration & tokens
-│   ├── layout.js            # Root layout with fonts, metadata & Sonner toaster
-│   └── page.jsx             # Main dashboard page
+│   │   ├── cron/track/route.js    # Background price refresh cron job
+│   │   ├── products/
+│   │   │   ├── route.js          # GET all products / POST new product
+│   │   │   └── [id]/route.js     # DELETE / POST refresh single product
+│   ├── layout.js                 # Root layout with fonts & toaster
+│   ├── page.jsx                  # Main home page
+│   └── globals.css               # Tailwind CSS v4 design tokens
 ├── components/
 │   └── ui/
-│       ├── AuthButton.jsx   # Magic Link & Google Authentication component
-│       └── Dashboard.jsx    # Product list, tracker input, & charts
+│       ├── AddproductForm.jsx    # URL input & extraction submit form
+│       ├── Dashboard.jsx         # Tracked products grid & empty states
+│       ├── ProductCard.jsx       # Card with AI badge, quick actions & image
+│       ├── PriceHistoryChart.jsx # 4-tab history modal (Trend, Images, Specs, Similar)
+│       └── ShareDealModal.jsx    # WhatsApp share & HTML5 Canvas PNG card generator
 ├── lib/
-│   └── supabaseClient.js    # Client-side Supabase client
-├── public/
-│   ├── favicon.png          # App favicon and brand assets
-│   └── deal-drop-logo.png   # Main brand logo
-├── utils/
-│   └── supabase/            # SSR Supabase client utilities
-├── schema.sql               # Database schema & RLS security policies
-└── vercel.json              # Vercel Cron Job configuration
+│   ├── dealAnalysis.js           # Algorithmic AI deal score & recommendation engine
+│   ├── firecrawl.js              # Firecrawl v2 schema & web scraper
+│   └── utils.js                  # Tailwind class merging utility
+├── schema.sql                    # Full PostgreSQL database schema & RLS policies
+└── vercel.json                   # Deployment & cron job configurations
 ```
-
----
-
-## ⏰ Automated Cron Monitoring
-
-PriceDrop includes automated background price tracking configured via [`vercel.json`](./vercel.json):
-
-```json
-{
-  "crons": [
-    {
-      "path": "/api/cron/track",
-      "schedule": "0 0 * * *"
-    }
-  ]
-}
-```
-
-Every night at midnight UTC, Vercel triggers `/api/cron/track`, which loops through all tracked products, fetches the latest price with Firecrawl, and saves new entries to the `price_history` table.
-
----
-
-## 🚢 Deployment (Vercel)
-
-1. Push your repository to GitHub.
-2. Sign in to [Vercel](https://vercel.com/) and click **"Add New Project"**.
-3. Import `Pricedrop-`.
-4. Add all environment variables from `.env` in the **Environment Variables** panel.
-5. Click **Deploy**!
-6. In **Supabase Dashboard** ➔ **Authentication** ➔ **URL Configuration**, add your Vercel production URL under **Site URL** and **Redirect URLs**.
 
 ---
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome!  
-Feel free to check out the [issues page](https://github.com/raunak-chaurasiya/Pricedrop-/issues).
+Contributions, bug reports, and feature requests are welcome!  
+Feel free to open an issue or submit a Pull Request.
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
@@ -205,14 +214,10 @@ Feel free to check out the [issues page](https://github.com/raunak-chaurasiya/Pr
 
 ---
 
-## 👨‍💻 Author
+## 📄 License
 
-**Raunak Chaurasiya**
-- GitHub: [@raunak-chaurasiya](https://github.com/raunak-chaurasiya)
-- Project: [PriceDrop](https://pricedrop-sable.vercel.app/)
-
----
+This project is licensed under the MIT License — see the LICENSE file for details.
 
 <div align="center">
-  Made with ❤️ by Raunak Chaurasiya • Star ⭐ this repo if you found it useful!
+  <sub>Built with ❤️ by <a href="https://github.com/raunak-chaurasiya">Raunak Chaurasiya</a></sub>
 </div>
