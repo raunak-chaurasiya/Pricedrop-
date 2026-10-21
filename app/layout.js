@@ -8,7 +8,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata = {
-  title: "PriceDrop - Smart Price History Tracker",
+  title: "DealDrop - Smart Price History Tracker",
   description: "Track prices from any e-commerce site. Get instant alerts when prices drop.",
   icons: {
     icon: "/favicon.png",
