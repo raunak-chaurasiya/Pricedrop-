@@ -10,9 +10,11 @@ import {
   TrendingDown,
   TrendingUp,
   LineChart,
+  Sparkles,
 } from "lucide-react";
 import { toast } from "sonner";
 import PriceHistoryModal from "@/components/ui/PriceHistoryChart";
+import { calculateDealVerdict } from "@/lib/dealAnalysis";
 
 export default function ProductCard({ product, onProductUpdated, onProductDeleted }) {
   const [refreshing, setRefreshing] = useState(false);
@@ -27,6 +29,8 @@ export default function ProductCard({ product, onProductUpdated, onProductDelete
   const priceDropPct = highestPrice > currentPrice
     ? Math.round(((highestPrice - currentPrice) / highestPrice) * 100)
     : 0;
+
+  const dealVerdict = calculateDealVerdict(product);
 
   const handleRefresh = async () => {
     setRefreshing(true);
@@ -85,6 +89,22 @@ export default function ProductCard({ product, onProductUpdated, onProductDelete
               </span>
             )}
           </div>
+
+          {/* AI Deal Verdict Pill */}
+          {dealVerdict && (
+            <div className="mb-2.5 flex items-center justify-between gap-1">
+              <span
+                className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${dealVerdict.badgeColor}`}
+                title={dealVerdict.insight}
+              >
+                <Sparkles className="w-3 h-3 shrink-0" />
+                <span>AI: {dealVerdict.shortLabel}</span>
+              </span>
+              <span className="text-[11px] font-semibold text-gray-400">
+                Score <strong className="text-gray-700">{dealVerdict.score}</strong>/100
+              </span>
+            </div>
+          )}
 
           {/* Product Title */}
           <h3 className="font-semibold text-gray-900 text-base line-clamp-2 leading-snug mb-3">

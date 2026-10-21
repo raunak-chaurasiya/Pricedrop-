@@ -34,6 +34,7 @@ import {
   PackageOpen,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { calculateDealVerdict } from "@/lib/dealAnalysis";
 
 export default function PriceHistoryModal({
   product,
@@ -47,6 +48,8 @@ export default function PriceHistoryModal({
   const [selectedImageIdx, setSelectedImageIdx] = useState(0);
 
   if (!product) return null;
+
+  const verdict = useMemo(() => calculateDealVerdict(product), [product]);
 
   // Resolve gallery images safely
   const galleryImages = useMemo(() => {
@@ -258,6 +261,83 @@ export default function PriceHistoryModal({
         {/* TAB 1: PRICE CHART & STATS */}
         {activeTab === "chart" && (
           <div className="mt-3">
+            {/* AI Deal Intelligence Card */}
+            {verdict && (
+              <div
+                className={`p-3.5 sm:p-4 rounded-2xl border mb-3.5 text-left transition-all ${
+                  verdict.verdict === "BUY_NOW"
+                    ? "bg-emerald-50/70 border-emerald-200"
+                    : verdict.verdict === "FAIR_PRICE"
+                    ? "bg-amber-50/70 border-amber-200"
+                    : "bg-rose-50/70 border-rose-200"
+                }`}
+              >
+                <div className="flex items-center justify-between gap-2 mb-1.5">
+                  <div className="flex items-center gap-1.5">
+                    <Sparkles
+                      className={`w-4 h-4 ${
+                        verdict.verdict === "BUY_NOW"
+                          ? "text-emerald-600"
+                          : verdict.verdict === "FAIR_PRICE"
+                          ? "text-amber-600"
+                          : "text-rose-600"
+                      }`}
+                    />
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-gray-700">
+                      AI Deal Intelligence
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[11px] font-medium text-gray-500">Deal Score</span>
+                    <div
+                      className={`px-2 py-0.5 rounded-full text-xs font-black ${
+                        verdict.verdict === "BUY_NOW"
+                          ? "bg-emerald-600 text-white"
+                          : verdict.verdict === "FAIR_PRICE"
+                          ? "bg-amber-600 text-white"
+                          : "bg-rose-600 text-white"
+                      }`}
+                    >
+                      {verdict.score}/100
+                    </div>
+                  </div>
+                </div>
+
+                {/* Verdict Title */}
+                <h4
+                  className={`text-sm sm:text-base font-extrabold flex items-center gap-1.5 ${
+                    verdict.verdict === "BUY_NOW"
+                      ? "text-emerald-900"
+                      : verdict.verdict === "FAIR_PRICE"
+                      ? "text-amber-950"
+                      : "text-rose-950"
+                  }`}
+                >
+                  {verdict.label}
+                </h4>
+
+                {/* Insight Description */}
+                <p className="text-xs text-gray-700 mt-1 leading-relaxed">
+                  {verdict.insight}
+                </p>
+
+                {/* Score Progress Bar */}
+                <div className="w-full bg-gray-200/80 h-1.5 rounded-full overflow-hidden mt-2.5">
+                  <div
+                    className={`h-full rounded-full transition-all duration-500 ${
+                      verdict.verdict === "BUY_NOW"
+                        ? "bg-emerald-500"
+                        : verdict.verdict === "FAIR_PRICE"
+                        ? "bg-amber-500"
+                        : "bg-rose-500"
+                    }`}
+                    style={{ width: `${verdict.score}%` }}
+                  />
+                </div>
+              </div>
+            )}
+
             {/* Timeframe & Analytics Tag Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
               <div className="flex items-center gap-2 text-orange-600 font-semibold text-xs tracking-wider uppercase bg-orange-50 px-2.5 py-1 rounded-md w-fit">
