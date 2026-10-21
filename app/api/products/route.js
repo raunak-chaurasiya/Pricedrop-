@@ -98,6 +98,7 @@ export async function POST(request) {
         image_url: extracted.image_url,
         images: extracted.images || (extracted.image_url ? [extracted.image_url] : []),
         features: extracted.features || [],
+        similar_products: extracted.similar_products || [],
         current_price: price,
         lowest_price: price,
         highest_price: price,

@@ -33,8 +33,11 @@ import {
   ShoppingBag,
   PackageOpen,
   Share2,
+  Layers,
+  Plus,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import { calculateDealVerdict } from "@/lib/dealAnalysis";
 import ShareDealModal from "@/components/ui/ShareDealModal";
 
@@ -77,6 +80,40 @@ export default function PriceHistoryModal({
     }
     return [];
   }, [product]);
+
+  // Resolve similar products safely
+  const similarList = useMemo(() => {
+    if (Array.isArray(product.similar_products) && product.similar_products.length > 0) {
+      return product.similar_products.filter(
+        (sp) => sp && typeof sp === "object" && sp.title
+      );
+    }
+    return [];
+  }, [product]);
+
+  const [trackingUrl, setTrackingUrl] = useState(null);
+
+  const handleTrackAlternative = async (altUrl) => {
+    if (!altUrl) return;
+    setTrackingUrl(altUrl);
+    try {
+      const res = await fetch("/api/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: altUrl }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to track product");
+      toast.success("Similar product added to your dashboard!");
+      if (typeof window !== "undefined") {
+        setTimeout(() => window.location.reload(), 1000);
+      }
+    } catch (err) {
+      toast.error(err.message || "Could not track product");
+    } finally {
+      setTrackingUrl(null);
+    }
+  };
 
   // Sort history chronologically
   const rawHistory = useMemo(() => {
@@ -202,6 +239,24 @@ export default function PriceHistoryModal({
                   </span>
                 )}
               </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveTab("similar")}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap ${
+                  activeTab === "similar"
+                    ? "bg-white text-orange-600 shadow-xs font-bold"
+                    : "text-gray-600 hover:text-gray-900"
+                }`}
+              >
+                <Layers className="w-3.5 h-3.5" />
+                <span>Similar</span>
+                {similarList.length > 0 && (
+                  <span className="bg-orange-100 text-orange-700 text-[10px] px-1.5 py-0.2 rounded-full font-bold">
+                    {similarList.length}
+                  </span>
+                )}
+              </button>
             </div>
 
             {/* Quick Actions */}
@@ -268,6 +323,7 @@ export default function PriceHistoryModal({
                 {activeTab === "chart" && "Price fluctuations and historical records"}
                 {activeTab === "gallery" && `Product Gallery • ${galleryImages.length} photo${galleryImages.length === 1 ? "" : "s"}`}
                 {activeTab === "features" && `Key Specifications & Highlights • ${featureList.length} items`}
+                {activeTab === "similar" && `Similar & Alternative Products • ${similarList.length} items`}
               </DialogDescription>
             </div>
           </div>
@@ -635,6 +691,142 @@ export default function PriceHistoryModal({
                   >
                     <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? "animate-spin" : ""}`} />
                     Extract Features Now
+                  </Button>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* TAB 4: SIMILAR PRODUCTS / ALTERNATIVES */}
+        {activeTab === "similar" && (
+          <div className="mt-3 space-y-3">
+            {similarList.length > 0 ? (
+              <div className="space-y-2.5 max-h-[50vh] overflow-y-auto pr-1">
+                {similarList.map((item, idx) => {
+                  const itemPrice = Number(item.price) || 0;
+                  const currentMainPrice = Number(product.current_price) || 0;
+                  const priceDiff =
+                    itemPrice > 0 && currentMainPrice > 0
+                      ? itemPrice - currentMainPrice
+                      : 0;
+                  const isCheaper = priceDiff < 0;
+
+                  return (
+                    <div
+                      key={idx}
+                      className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-gray-50/70 hover:bg-orange-50/40 border border-gray-200/80 hover:border-orange-200 p-3 sm:p-3.5 rounded-xl transition-all text-left"
+                    >
+                      {/* Left: Image & Info */}
+                      <div className="flex items-center gap-3 min-w-0 flex-1">
+                        <div className="w-13 h-13 shrink-0 bg-white rounded-lg border border-gray-100 p-1 flex items-center justify-center overflow-hidden">
+                          {item.image_url ? (
+                            <img
+                              src={item.image_url}
+                              alt={item.title}
+                              className="max-h-full max-w-full object-contain mix-blend-multiply"
+                            />
+                          ) : (
+                            <div className="text-gray-300 text-[10px] text-center">
+                              No image
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="min-w-0 flex-1">
+                          <h4 className="font-semibold text-gray-900 text-xs sm:text-sm line-clamp-2 leading-snug">
+                            {item.title}
+                          </h4>
+
+                          <div className="flex items-center gap-2 mt-1">
+                            {itemPrice > 0 ? (
+                              <span className="font-black text-gray-900 text-sm">
+                                {item.currency || product.currency || "₹"}{" "}
+                                {itemPrice.toLocaleString("en-IN")}
+                              </span>
+                            ) : (
+                              <span className="text-xs text-gray-400">
+                                Price on store
+                              </span>
+                            )}
+
+                            {/* Cheaper / Higher Badge */}
+                            {priceDiff !== 0 && (
+                              <span
+                                className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${
+                                  isCheaper
+                                    ? "bg-emerald-100 text-emerald-700"
+                                    : "bg-gray-100 text-gray-600"
+                                }`}
+                              >
+                                {isCheaper
+                                  ? `${product.currency || "₹"}${Math.abs(
+                                      priceDiff
+                                    ).toLocaleString("en-IN")} Cheaper`
+                                  : `${product.currency || "₹"}${priceDiff.toLocaleString(
+                                      "en-IN"
+                                    )} Higher`}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Right: Actions */}
+                      <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                        {item.url && (
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 h-7.5 px-2.5 rounded-lg text-xs font-medium text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 transition-colors"
+                          >
+                            <span>Store</span>
+                            <ExternalLink className="w-3 h-3 opacity-60" />
+                          </a>
+                        )}
+
+                        {item.url && (
+                          <Button
+                            size="sm"
+                            onClick={() => handleTrackAlternative(item.url)}
+                            disabled={trackingUrl === item.url}
+                            className="h-7.5 px-2.5 bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold rounded-lg gap-1 shadow-xs cursor-pointer"
+                          >
+                            <Plus className="w-3 h-3" />
+                            <span>
+                              {trackingUrl === item.url ? "Adding..." : "Track"}
+                            </span>
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="text-center py-12 bg-gray-50/60 border border-dashed border-gray-200 rounded-2xl">
+                <Layers className="w-10 h-10 text-gray-400 mx-auto mb-2" />
+                <h4 className="font-semibold text-gray-800 text-sm">
+                  No similar products recorded yet
+                </h4>
+                <p className="text-xs text-gray-500 mt-1 max-w-sm mx-auto">
+                  Click the refresh button to trigger Firecrawl to scan this store page for alternative products.
+                </p>
+                {onRefresh && (
+                  <Button
+                    onClick={onRefresh}
+                    disabled={refreshing}
+                    variant="outline"
+                    size="sm"
+                    className="mt-3 text-xs gap-1.5 text-orange-600 border-orange-200 hover:bg-orange-50"
+                  >
+                    <RefreshCw
+                      className={`w-3.5 h-3.5 ${
+                        refreshing ? "animate-spin" : ""
+                      }`}
+                    />
+                    Scan For Similar Products
                   </Button>
                 )}
               </div>

@@ -72,6 +72,9 @@ export async function POST(request, { params }) {
     if (extracted.features && extracted.features.length > 0) {
       updatePayload.features = extracted.features;
     }
+    if (extracted.similar_products && extracted.similar_products.length > 0) {
+      updatePayload.similar_products = extracted.similar_products;
+    }
     if (extracted.image_url && !product.image_url) {
       updatePayload.image_url = extracted.image_url;
     }
