@@ -257,7 +257,7 @@ export default function ShareDealModal({ product, isOpen, onClose }) {
       // Footer
       ctx.fillStyle = "#6b7280";
       ctx.font = "13px sans-serif";
-      ctx.fillText("Track live price drops at dealdrop.vercel.app", 40, 750);
+      ctx.fillText("Track live price drops at dealdrop-tracker.vercel.app", 40, 750);
 
       // Trigger download
       const dataUrl = canvas.toDataURL("image/png");
@@ -276,7 +276,7 @@ export default function ShareDealModal({ product, isOpen, onClose }) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[95vw] sm:max-w-lg max-h-[92vh] overflow-y-auto bg-white border border-gray-100 shadow-2xl rounded-2xl p-4 sm:p-6">
+      <DialogContent className="w-[95vw] sm:max-w-lg max-h-[92vh] overflow-y-auto overflow-x-hidden bg-white border border-gray-100 shadow-2xl rounded-2xl p-4 sm:p-6">
         <DialogHeader>
           <div className="flex items-center gap-2 text-orange-600 font-semibold text-xs tracking-wider uppercase bg-orange-50 px-2.5 py-1 rounded-md w-fit">
             <Share2 className="w-3.5 h-3.5" /> Share Deal Card

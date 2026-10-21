@@ -185,12 +185,12 @@ export default function PriceHistoryModal({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[95vw] sm:max-w-3xl max-h-[90vh] overflow-y-auto bg-white border border-gray-100 shadow-2xl rounded-2xl p-4 sm:p-7">
+      <DialogContent className="w-[95vw] sm:max-w-3xl max-h-[90vh] overflow-y-auto overflow-x-hidden bg-white border border-gray-100 shadow-2xl rounded-2xl p-4 sm:p-6">
         <DialogHeader className="space-y-3">
           {/* Top Bar: Tabs & Action Links */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-gray-100 pb-3 pr-7 sm:pr-8">
             {/* Tab Buttons */}
-            <div className="flex items-center bg-gray-100/90 p-1 rounded-xl text-xs font-semibold gap-1 self-start sm:self-auto overflow-x-auto max-w-full">
+            <div className="flex items-center bg-gray-100/90 p-1 rounded-xl text-xs font-semibold gap-1 self-start sm:self-auto overflow-x-auto max-w-full no-scrollbar">
               <button
                 type="button"
                 onClick={() => setActiveTab("chart")}
@@ -410,18 +410,18 @@ export default function PriceHistoryModal({
             )}
 
             {/* Timeframe & Analytics Tag Header */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-              <div className="flex items-center gap-2 text-orange-600 font-semibold text-xs tracking-wider uppercase bg-orange-50 px-2.5 py-1 rounded-md w-fit">
+            <div className="flex items-center justify-between gap-2 mb-3 flex-wrap">
+              <div className="flex items-center gap-2 text-orange-600 font-semibold text-xs tracking-wider uppercase bg-orange-50 px-2.5 py-1 rounded-md shrink-0">
                 <Tag className="w-3.5 h-3.5" /> Price Analytics
               </div>
 
               {/* Timeframe Filter Buttons */}
-              <div className="flex items-center bg-gray-100 p-1 rounded-xl text-xs font-semibold self-start sm:self-auto overflow-x-auto max-w-full">
+              <div className="flex items-center bg-gray-100 p-1 rounded-xl text-xs font-semibold shrink-0">
                 {["1M", "3M", "6M", "MAX"].map((tf) => (
                   <button
                     key={tf}
                     onClick={() => setTimeframe(tf)}
-                    className={`px-2.5 sm:px-3 py-1 rounded-lg transition-all whitespace-nowrap cursor-pointer ${
+                    className={`px-2 sm:px-3 py-1 rounded-lg transition-all whitespace-nowrap cursor-pointer ${
                       timeframe === tf
                         ? "bg-white text-orange-600 shadow-xs font-bold"
                         : "text-gray-500 hover:text-gray-900"
@@ -496,7 +496,7 @@ export default function PriceHistoryModal({
             </div>
 
             {/* Chart Area */}
-            <div className="h-56 sm:h-72 w-full bg-linear-to-b from-orange-50/20 via-white to-orange-50/10 rounded-2xl p-2 sm:p-4 border border-gray-100 shadow-inner">
+            <div className="h-56 sm:h-72 w-full min-w-0 overflow-hidden bg-linear-to-b from-orange-50/20 via-white to-orange-50/10 rounded-2xl p-2 sm:p-4 border border-gray-100 shadow-inner">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
                   data={formattedData}

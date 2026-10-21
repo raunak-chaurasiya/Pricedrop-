@@ -4,17 +4,17 @@
 
 **Never overpay again. Track real-time prices from Amazon, Flipkart & top stores with AI-powered "Buy or Wait" verdicts, multi-timeframe history charts, product specifications, alternative deals, and 1-click social share cards.**
 
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-pricedrop--sable.vercel.app-ff6b00?style=for-the-badge)](https://pricedrop-sable.vercel.app/)
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-dealdrop--tracker.vercel.app-ff6b00?style=for-the-badge)](https://dealdrop-tracker.vercel.app/)
 [![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
 [![Firecrawl](https://img.shields.io/badge/Firecrawl_v2-FF4F00?style=for-the-badge&logo=firecrawl&logoColor=white)](https://firecrawl.dev/)
-[![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://pricedrop-sable.vercel.app/)
+[![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://dealdrop-tracker.vercel.app/)
 
 <br />
 
-[Explore Live App ↗](https://pricedrop-sable.vercel.app/) • [Report Bug ↗](https://github.com/raunak-chaurasiya/Pricedrop-/issues) • [Request Feature ↗](https://github.com/raunak-chaurasiya/Pricedrop-/issues)
+[Explore Live App ↗](https://dealdrop-tracker.vercel.app/) • [Report Bug ↗](https://github.com/raunak-chaurasiya/Pricedrop-/issues) • [Request Feature ↗](https://github.com/raunak-chaurasiya/Pricedrop-/issues)
 
 </div>
 
