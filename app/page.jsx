@@ -62,7 +62,7 @@ export default async function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex flex-col items-center md:items-start gap-1 text-center md:text-left">
             <p className="font-semibold text-gray-700">
-              © {new Date().getFullYear()} PriceDrop • Smart Price Tracker
+              © {new Date().getFullYear()} DealDrop • Smart Price Tracker
             </p>
             <p className="text-gray-400">
               Real-Time Price Monitoring & Instant Price Drop Alerts for Amazon, Flipkart & Top Stores

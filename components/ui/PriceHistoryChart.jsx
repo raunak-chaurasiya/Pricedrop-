@@ -52,13 +52,13 @@ export default function PriceHistoryModal({
   const [timeframe, setTimeframe] = useState("MAX"); // '1M', '3M', '6M', 'MAX'
   const [selectedImageIdx, setSelectedImageIdx] = useState(0);
   const [showShare, setShowShare] = useState(false);
+  const [trackingUrl, setTrackingUrl] = useState(null);
 
-  if (!product) return null;
-
-  const verdict = useMemo(() => calculateDealVerdict(product), [product]);
+  const verdict = useMemo(() => (product ? calculateDealVerdict(product) : null), [product]);
 
   // Resolve gallery images safely
   const galleryImages = useMemo(() => {
+    if (!product) return [];
     let imgs = [];
     if (Array.isArray(product.images) && product.images.length > 0) {
       imgs = product.images.filter(
@@ -73,6 +73,7 @@ export default function PriceHistoryModal({
 
   // Resolve features list safely
   const featureList = useMemo(() => {
+    if (!product) return [];
     if (Array.isArray(product.features) && product.features.length > 0) {
       return product.features.filter(
         (f) => typeof f === "string" && f.trim().length > 0
@@ -83,6 +84,7 @@ export default function PriceHistoryModal({
 
   // Resolve similar products safely
   const similarList = useMemo(() => {
+    if (!product) return [];
     if (Array.isArray(product.similar_products) && product.similar_products.length > 0) {
       return product.similar_products.filter(
         (sp) => sp && typeof sp === "object" && sp.title
@@ -90,8 +92,6 @@ export default function PriceHistoryModal({
     }
     return [];
   }, [product]);
-
-  const [trackingUrl, setTrackingUrl] = useState(null);
 
   const handleTrackAlternative = async (altUrl) => {
     if (!altUrl) return;
@@ -117,6 +117,7 @@ export default function PriceHistoryModal({
 
   // Sort history chronologically
   const rawHistory = useMemo(() => {
+    if (!product) return [];
     if (product.price_history && product.price_history.length > 0) {
       return [...product.price_history].sort(
         (a, b) => new Date(a.created_at) - new Date(b.created_at)
@@ -127,6 +128,7 @@ export default function PriceHistoryModal({
 
   // Filter based on selected timeframe
   const filteredHistory = useMemo(() => {
+    if (rawHistory.length === 0) return [];
     if (timeframe === "MAX") return rawHistory;
     const now = new Date();
     const daysMap = { "1M": 30, "3M": 90, "6M": 180 };
@@ -163,10 +165,10 @@ export default function PriceHistoryModal({
   }, [filteredHistory]);
 
   const prices = filteredHistory.map((h) => Number(h.price));
-  const minPrice = Math.min(...prices);
-  const maxPrice = Math.max(...prices);
-  const currentPrice = Number(product.current_price);
-  const startPrice = Number(filteredHistory[0].price);
+  const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
+  const maxPrice = prices.length > 0 ? Math.max(...prices) : 0;
+  const currentPrice = product ? Number(product.current_price) : 0;
+  const startPrice = filteredHistory.length > 0 ? Number(filteredHistory[0].price) : currentPrice;
   const priceDifference = currentPrice - startPrice;
   const isDropped = priceDifference < 0;
 
@@ -182,19 +184,21 @@ export default function PriceHistoryModal({
     );
   };
 
+  if (!product) return null;
+
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[95vw] sm:max-w-3xl max-h-[90vh] overflow-y-auto overflow-x-hidden bg-white border border-gray-100 shadow-2xl rounded-2xl p-4 sm:p-6">
+      <DialogContent className="w-[96vw] max-w-[96vw] sm:max-w-3xl max-h-[92vh] overflow-y-auto overflow-x-hidden bg-white border border-gray-100 shadow-2xl rounded-2xl p-3.5 sm:p-6">
         <DialogHeader className="space-y-3">
           {/* Top Bar: Tabs & Action Links */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-gray-100 pb-3 pr-7 sm:pr-8">
-            {/* Tab Buttons */}
-            <div className="flex items-center bg-gray-100/90 p-1 rounded-xl text-xs font-semibold gap-1 self-start sm:self-auto overflow-x-auto max-w-full no-scrollbar">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-gray-100 pb-3 pr-8 sm:pr-8">
+            {/* Tab Buttons - scrollable horizontally on mobile */}
+            <div className="flex items-center bg-gray-100/90 p-1 rounded-xl text-xs font-semibold gap-1 self-stretch sm:self-auto overflow-x-auto max-w-full no-scrollbar">
               <button
                 type="button"
                 onClick={() => setActiveTab("chart")}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                   activeTab === "chart"
                     ? "bg-white text-orange-600 shadow-xs font-bold"
                     : "text-gray-600 hover:text-gray-900"
@@ -207,7 +211,7 @@ export default function PriceHistoryModal({
               <button
                 type="button"
                 onClick={() => setActiveTab("gallery")}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                   activeTab === "gallery"
                     ? "bg-white text-orange-600 shadow-xs font-bold"
                     : "text-gray-600 hover:text-gray-900"
@@ -225,7 +229,7 @@ export default function PriceHistoryModal({
               <button
                 type="button"
                 onClick={() => setActiveTab("features")}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                   activeTab === "features"
                     ? "bg-white text-orange-600 shadow-xs font-bold"
                     : "text-gray-600 hover:text-gray-900"
@@ -243,7 +247,7 @@ export default function PriceHistoryModal({
               <button
                 type="button"
                 onClick={() => setActiveTab("similar")}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                   activeTab === "similar"
                     ? "bg-white text-orange-600 shadow-xs font-bold"
                     : "text-gray-600 hover:text-gray-900"
@@ -260,14 +264,14 @@ export default function PriceHistoryModal({
             </div>
 
             {/* Quick Actions */}
-            <div className="flex items-center gap-2 self-end sm:self-auto">
+            <div className="flex items-center gap-1.5 sm:gap-2 self-start sm:self-auto flex-wrap">
               {onRefresh && (
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={onRefresh}
                   disabled={refreshing}
-                  className="h-8 px-2.5 text-xs text-gray-600 hover:text-orange-600 hover:bg-orange-50 gap-1.5"
+                  className="h-7.5 sm:h-8 px-2 sm:px-2.5 text-xs text-gray-600 hover:text-orange-600 hover:bg-orange-50 gap-1.5"
                   title="Refresh latest price and details"
                 >
                   <RefreshCw
@@ -275,7 +279,7 @@ export default function PriceHistoryModal({
                       refreshing ? "animate-spin text-orange-500" : ""
                     }`}
                   />
-                  <span className="hidden sm:inline">Refresh</span>
+                  <span>Refresh</span>
                 </Button>
               )}
 
@@ -283,7 +287,7 @@ export default function PriceHistoryModal({
                 href={product.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-xs font-medium text-orange-600 bg-orange-50 hover:bg-orange-100/80 transition-colors"
+                className="inline-flex items-center gap-1.5 h-7.5 sm:h-8 px-2.5 sm:px-3 rounded-lg text-xs font-medium text-orange-600 bg-orange-50 hover:bg-orange-100/80 transition-colors"
                 title="View on original store"
               >
                 <ShoppingBag className="w-3.5 h-3.5" />
@@ -295,11 +299,11 @@ export default function PriceHistoryModal({
                 variant="ghost"
                 size="sm"
                 onClick={() => setShowShare(true)}
-                className="h-8 px-2.5 text-xs text-gray-600 hover:text-orange-600 hover:bg-orange-50 gap-1.5 cursor-pointer"
+                className="h-7.5 sm:h-8 px-2 sm:px-2.5 text-xs text-gray-600 hover:text-orange-600 hover:bg-orange-50 gap-1.5 cursor-pointer"
                 title="Share Deal Card"
               >
                 <Share2 className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Share</span>
+                <span>Share</span>
               </Button>
             </div>
           </div>
@@ -335,7 +339,7 @@ export default function PriceHistoryModal({
             {/* AI Deal Intelligence Card */}
             {verdict && (
               <div
-                className={`p-3.5 sm:p-4 rounded-2xl border mb-3.5 text-left transition-all ${
+                className={`p-3 sm:p-4 rounded-2xl border mb-3.5 text-left transition-all ${
                   verdict.verdict === "BUY_NOW"
                     ? "bg-emerald-50/70 border-emerald-200"
                     : verdict.verdict === "FAIR_PRICE"
@@ -389,7 +393,7 @@ export default function PriceHistoryModal({
                 </h4>
 
                 {/* Insight Description */}
-                <p className="text-xs text-gray-700 mt-1 leading-relaxed">
+                <p className="text-xs text-gray-700 mt-1 leading-relaxed break-words">
                   {verdict.insight}
                 </p>
 
@@ -416,12 +420,12 @@ export default function PriceHistoryModal({
               </div>
 
               {/* Timeframe Filter Buttons */}
-              <div className="flex items-center bg-gray-100 p-1 rounded-xl text-xs font-semibold shrink-0">
+              <div className="flex items-center bg-gray-100 p-1 rounded-xl text-xs font-semibold shrink-0 overflow-x-auto no-scrollbar">
                 {["1M", "3M", "6M", "MAX"].map((tf) => (
                   <button
                     key={tf}
                     onClick={() => setTimeframe(tf)}
-                    className={`px-2 sm:px-3 py-1 rounded-lg transition-all whitespace-nowrap cursor-pointer ${
+                    className={`px-2 sm:px-3 py-1 rounded-lg transition-all whitespace-nowrap cursor-pointer shrink-0 ${
                       timeframe === tf
                         ? "bg-white text-orange-600 shadow-xs font-bold"
                         : "text-gray-500 hover:text-gray-900"
@@ -433,9 +437,9 @@ export default function PriceHistoryModal({
               </div>
             </div>
 
-            {/* Quick Stats Cards */}
-            <div className="grid grid-cols-3 gap-1.5 sm:gap-3 my-3">
-              <div className="bg-orange-50/70 p-2 sm:p-3.5 rounded-xl border border-orange-100 text-left min-w-0">
+            {/* Quick Stats Cards - responsive flex on mobile with smooth horizontal scrolling */}
+            <div className="flex sm:grid sm:grid-cols-3 gap-2 sm:gap-3 my-3 overflow-x-auto pb-1 no-scrollbar">
+              <div className="flex-1 min-w-[105px] bg-orange-50/70 p-2.5 sm:p-3.5 rounded-xl border border-orange-100 text-left shrink-0 sm:shrink">
                 <span className="text-[10px] sm:text-xs text-gray-500 font-medium block truncate">
                   Current
                 </span>
@@ -444,7 +448,7 @@ export default function PriceHistoryModal({
                   {currentPrice.toLocaleString("en-IN")}
                 </p>
               </div>
-              <div className="bg-emerald-50/70 p-2 sm:p-3.5 rounded-xl border border-emerald-100 text-left min-w-0">
+              <div className="flex-1 min-w-[105px] bg-emerald-50/70 p-2.5 sm:p-3.5 rounded-xl border border-emerald-100 text-left shrink-0 sm:shrink">
                 <span className="text-[10px] sm:text-xs text-gray-500 font-medium block truncate">
                   Lowest
                 </span>
@@ -453,7 +457,7 @@ export default function PriceHistoryModal({
                   {minPrice.toLocaleString("en-IN")}
                 </p>
               </div>
-              <div className="bg-rose-50/70 p-2 sm:p-3.5 rounded-xl border border-rose-100 text-left min-w-0">
+              <div className="flex-1 min-w-[105px] bg-rose-50/70 p-2.5 sm:p-3.5 rounded-xl border border-rose-100 text-left shrink-0 sm:shrink">
                 <span className="text-[10px] sm:text-xs text-gray-500 font-medium block truncate">
                   Highest
                 </span>
@@ -495,71 +499,73 @@ export default function PriceHistoryModal({
               )}
             </div>
 
-            {/* Chart Area */}
-            <div className="h-56 sm:h-72 w-full min-w-0 overflow-hidden bg-linear-to-b from-orange-50/20 via-white to-orange-50/10 rounded-2xl p-2 sm:p-4 border border-gray-100 shadow-inner">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart
-                  data={formattedData}
-                  margin={{ top: 10, right: 10, left: -15, bottom: 0 }}
-                >
-                  <defs>
-                    <linearGradient id="priceGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#f97316" stopOpacity={0.45} />
-                      <stop offset="95%" stopColor="#f97316" stopOpacity={0.02} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-                  <XAxis
-                    dataKey="date"
-                    tickLine={false}
-                    stroke="#9ca3af"
-                    fontSize={10}
-                    dy={5}
-                  />
-                  <YAxis
-                    tickLine={false}
-                    stroke="#9ca3af"
-                    fontSize={10}
-                    domain={[
-                      (dataMin) => Math.max(0, Math.floor(dataMin * 0.95)),
-                      (dataMax) => Math.ceil(dataMax * 1.05),
-                    ]}
-                    tickFormatter={(val) => `${product.currency}${val}`}
-                  />
-                  <Tooltip
-                    content={({ active, payload }) => {
-                      if (active && payload && payload.length) {
-                        const item = payload[0].payload;
-                        return (
-                          <div className="bg-gray-900 text-white px-3 py-2 rounded-xl shadow-xl border border-gray-800 text-xs">
-                            <p className="text-gray-400 text-[10px]">{item.fullDate}</p>
-                            <p className="font-extrabold text-orange-400 text-xs sm:text-sm mt-0.5">
-                              {product.currency}{" "}
-                              {Number(item.price).toLocaleString("en-IN")}
-                            </p>
-                          </div>
-                        );
-                      }
-                      return null;
-                    }}
-                  />
-                  <Area
-                    type="stepAfter"
-                    dataKey="price"
-                    stroke="#f97316"
-                    strokeWidth={2}
-                    fillOpacity={1}
-                    fill="url(#priceGradient)"
-                    dot={{
-                      r: 2.5,
-                      fill: "#f97316",
-                      strokeWidth: 1,
-                      stroke: "#ffffff",
-                    }}
-                    activeDot={{ r: 5, fill: "#ea580c" }}
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
+            {/* Chart Area - scrollable horizontally on narrow mobile screens if needed */}
+            <div className="w-full overflow-x-auto pb-1 no-scrollbar">
+              <div className="min-w-[280px] sm:min-w-0 h-56 sm:h-72 w-full bg-linear-to-b from-orange-50/20 via-white to-orange-50/10 rounded-2xl p-2 sm:p-4 border border-gray-100 shadow-inner">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart
+                    data={formattedData}
+                    margin={{ top: 10, right: 10, left: -15, bottom: 0 }}
+                  >
+                    <defs>
+                      <linearGradient id="priceGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#f97316" stopOpacity={0.45} />
+                        <stop offset="95%" stopColor="#f97316" stopOpacity={0.02} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+                    <XAxis
+                      dataKey="date"
+                      tickLine={false}
+                      stroke="#9ca3af"
+                      fontSize={10}
+                      dy={5}
+                    />
+                    <YAxis
+                      tickLine={false}
+                      stroke="#9ca3af"
+                      fontSize={10}
+                      domain={[
+                        (dataMin) => Math.max(0, Math.floor(dataMin * 0.95)),
+                        (dataMax) => Math.ceil(dataMax * 1.05),
+                      ]}
+                      tickFormatter={(val) => `${product.currency}${val}`}
+                    />
+                    <Tooltip
+                      content={({ active, payload }) => {
+                        if (active && payload && payload.length) {
+                          const item = payload[0].payload;
+                          return (
+                            <div className="bg-gray-900 text-white px-3 py-2 rounded-xl shadow-xl border border-gray-800 text-xs">
+                              <p className="text-gray-400 text-[10px]">{item.fullDate}</p>
+                              <p className="font-extrabold text-orange-400 text-xs sm:text-sm mt-0.5">
+                                {product.currency}{" "}
+                                {Number(item.price).toLocaleString("en-IN")}
+                              </p>
+                            </div>
+                          );
+                        }
+                        return null;
+                      }}
+                    />
+                    <Area
+                      type="stepAfter"
+                      dataKey="price"
+                      stroke="#f97316"
+                      strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#priceGradient)"
+                      dot={{
+                        r: 2.5,
+                        fill: "#f97316",
+                        strokeWidth: 1,
+                        stroke: "#ffffff",
+                      }}
+                      activeDot={{ r: 5, fill: "#ea580c" }}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
             </div>
           </div>
         )}
