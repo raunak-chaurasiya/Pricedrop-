@@ -192,9 +192,9 @@ export default function PriceHistoryModal({
       <DialogContent className="w-[calc(100vw-1.25rem)] max-w-[calc(100vw-1.25rem)] sm:max-w-3xl max-h-[92vh] overflow-y-auto overflow-x-hidden bg-white border border-gray-100 shadow-2xl rounded-2xl p-3 sm:p-6">
         <DialogHeader className="space-y-3">
           {/* Top Bar: Tabs & Action Links */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-gray-100 pb-3 pr-10 sm:pr-10">
-            {/* Tab Buttons - sleek horizontal scroll with touch support */}
-            <div className="flex items-center bg-gray-100/90 p-1 rounded-xl text-xs font-semibold gap-1 self-stretch sm:self-auto overflow-x-auto max-w-full sm:no-scrollbar">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-3 pr-10 sm:pr-10">
+            {/* Tab Buttons - horizontal scroll on mobile, normal static tabs on desktop */}
+            <div className="flex items-center bg-gray-100/90 p-1 rounded-xl text-xs font-semibold gap-1 self-stretch sm:self-auto overflow-x-auto sm:overflow-visible max-w-full sm:max-w-none shrink-0 no-scrollbar">
               <button
                 type="button"
                 onClick={() => setActiveTab("chart")}
@@ -263,15 +263,15 @@ export default function PriceHistoryModal({
               </button>
             </div>
 
-            {/* Quick Actions */}
-            <div className="flex items-center gap-1.5 sm:gap-2 self-start sm:self-auto flex-wrap">
+            {/* Quick Actions - properly aligned single row */}
+            <div className="flex items-center gap-1.5 sm:gap-2 self-start sm:self-auto shrink-0 flex-nowrap">
               {onRefresh && (
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={onRefresh}
                   disabled={refreshing}
-                  className="h-7.5 sm:h-8 px-2 sm:px-2.5 text-xs text-gray-600 hover:text-orange-600 hover:bg-orange-50 gap-1.5 cursor-pointer"
+                  className="h-8 px-2.5 sm:px-3 text-xs font-medium text-gray-600 hover:text-orange-600 hover:bg-orange-50 gap-1.5 cursor-pointer rounded-lg inline-flex items-center justify-center shrink-0"
                   title="Refresh latest price and details"
                 >
                   <RefreshCw
@@ -287,7 +287,7 @@ export default function PriceHistoryModal({
                 href={product.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 h-7.5 sm:h-8 px-2.5 sm:px-3 rounded-lg text-xs font-medium text-orange-600 bg-orange-50 hover:bg-orange-100/80 transition-colors"
+                className="inline-flex items-center justify-center gap-1.5 h-8 px-2.5 sm:px-3 rounded-lg text-xs font-medium text-orange-600 bg-orange-50 hover:bg-orange-100/80 transition-colors shrink-0"
                 title="View on original store"
               >
                 <ShoppingBag className="w-3.5 h-3.5" />
@@ -299,7 +299,7 @@ export default function PriceHistoryModal({
                 variant="ghost"
                 size="sm"
                 onClick={() => setShowShare(true)}
-                className="h-7.5 sm:h-8 px-2 sm:px-2.5 text-xs text-gray-600 hover:text-orange-600 hover:bg-orange-50 gap-1.5 cursor-pointer"
+                className="h-8 px-2.5 sm:px-3 text-xs font-medium text-gray-600 hover:text-orange-600 hover:bg-orange-50 gap-1.5 cursor-pointer rounded-lg inline-flex items-center justify-center shrink-0"
                 title="Share Deal Card"
               >
                 <Share2 className="w-3.5 h-3.5" />

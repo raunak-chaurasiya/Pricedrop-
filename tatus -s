@@ -1,0 +1,20 @@
+[33md0f6931[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m broken ui fix for smaller screens
+[33mda92f77[m fix some minor bugs
+[33m7c9b897[m ui resposive changes
+[33m1ee5df3[m add the faq section
+[33m5e6fd3c[m fix some changes
+[33me533de9[m fix the scrollbars
+[33m03e4b2a[m Update title to DealDrop
+[33mf680387[m Update README with all new features and optimize mobile responsive UI
+[33mee90bf5[m Add similar products extraction and alternative deals tab
+[33m55d0c44[m Add 1-Click Deal Card share modal with WhatsApp and PNG download
+[33m0eb05ea[m Add AI Buy or Wait smart verdict and deal score engine
+[33m423ac7d[m Add product images gallery and specifications to history modal
+[33m2f3ca56[m docs: add comprehensive professional README with live demo and features
+[33m692a293[m Fix cron schedule for Vercel Hobby plan
+[33mbf6807f[m Trigger Vercel deployment
+[33m996fa0b[m Update favicon and icons
+[33m522d823[m first commit
+[33m9a088df[m feat: add Dashboard component for managing and tracking products
+[33mc5bbfbe[m deploy: trigger Vercel production deployment
+[33m2d2e1d8[m feat: complete PriceDrop with BuyHatke-style history, Supabase auth and Firecrawl scraper
