@@ -315,6 +315,7 @@ export default function PriceHistoryModal({
                 <img
                   src={product.image_url}
                   alt={product.title}
+                  referrerPolicy="no-referrer"
                   className="max-h-full max-w-full object-contain mix-blend-multiply"
                 />
               </div>
@@ -580,6 +581,7 @@ export default function PriceHistoryModal({
                   <img
                     src={galleryImages[selectedImageIdx] || galleryImages[0]}
                     alt={`${product.title} - ${selectedImageIdx + 1}`}
+                    referrerPolicy="no-referrer"
                     className="max-h-full max-w-full object-contain mix-blend-multiply transition-all duration-300"
                   />
 
@@ -628,6 +630,7 @@ export default function PriceHistoryModal({
                         <img
                           src={img}
                           alt={`Thumbnail ${idx + 1}`}
+                          referrerPolicy="no-referrer"
                           className="w-full h-full object-contain mix-blend-multiply"
                         />
                       </button>
@@ -730,6 +733,7 @@ export default function PriceHistoryModal({
                             <img
                               src={item.image_url}
                               alt={item.title}
+                              referrerPolicy="no-referrer"
                               className="max-h-full max-w-full object-contain mix-blend-multiply"
                             />
                           ) : (

@@ -12,17 +12,24 @@ import {
   LineChart,
   Sparkles,
   Share2,
+  PackageOpen,
 } from "lucide-react";
 import { toast } from "sonner";
 import PriceHistoryModal from "@/components/ui/PriceHistoryChart";
 import ShareDealModal from "@/components/ui/ShareDealModal";
 import { calculateDealVerdict } from "@/lib/dealAnalysis";
 
-export default function ProductCard({ product, onProductUpdated, onProductDeleted }) {
+export default function ProductCard({
+  product,
+  onProductUpdated,
+  onProductDeleted,
+  isDemo = false,
+}) {
   const [refreshing, setRefreshing] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [showShare, setShowShare] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   const currentPrice = Number(product.current_price);
   const lowestPrice = product.lowest_price ? Number(product.lowest_price) : currentPrice;
@@ -36,6 +43,14 @@ export default function ProductCard({ product, onProductUpdated, onProductDelete
   const dealVerdict = calculateDealVerdict(product);
 
   const handleRefresh = async () => {
+    if (isDemo) {
+      setRefreshing(true);
+      setTimeout(() => {
+        setRefreshing(false);
+        toast.success(`[Demo Active] Price checked! Current live price: ${product.currency} ${currentPrice.toLocaleString("en-IN")}`);
+      }, 600);
+      return;
+    }
     setRefreshing(true);
     try {
       const res = await fetch(`/api/products/${product.id}`, {
@@ -76,19 +91,30 @@ export default function ProductCard({ product, onProductUpdated, onProductDelete
         <div className="p-5">
           {/* Header Image & Badge */}
           <div className="relative w-full h-44 bg-gray-50 rounded-xl overflow-hidden mb-4 flex items-center justify-center p-2">
-            {product.image_url ? (
+            {product.image_url && !imgError ? (
               <img
                 src={product.image_url}
                 alt={product.title}
+                referrerPolicy="no-referrer"
+                onError={() => setImgError(true)}
                 className="max-h-full max-w-full object-contain mix-blend-multiply"
               />
             ) : (
-              <div className="text-gray-300 font-medium text-xs">No image available</div>
+              <div className="flex flex-col items-center justify-center text-gray-400 gap-1.5 p-4 text-center">
+                <PackageOpen className="w-8 h-8 text-orange-400/80" />
+                <span className="text-[11px] font-medium text-gray-400">DealDrop Preview</span>
+              </div>
             )}
 
             {priceDropPct > 0 && (
               <span className="absolute top-2 left-2 bg-emerald-500 text-white text-xs font-bold px-2 py-0.5 rounded-md flex items-center gap-1 shadow-sm">
                 <TrendingDown className="w-3 h-3" /> {priceDropPct}% OFF Peak
+              </span>
+            )}
+
+            {isDemo && (
+              <span className="absolute top-2 right-2 bg-gray-900/80 backdrop-blur-xs text-white text-[10px] font-bold px-2 py-0.5 rounded-md shadow-xs">
+                Demo
               </span>
             )}
           </div>
@@ -187,16 +213,18 @@ export default function ProductCard({ product, onProductUpdated, onProductDelete
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleDelete}
-            disabled={deleting}
-            className="h-8 w-8 text-gray-400 hover:text-red-600 hover:bg-red-50"
-            title="Delete product"
-          >
-            <Trash2 className="w-3.5 h-3.5" />
-          </Button>
+          {!isDemo && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleDelete}
+              disabled={deleting}
+              className="h-8 w-8 text-gray-400 hover:text-red-600 hover:bg-red-50"
+              title="Delete product"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+            </Button>
+          )}
         </div>
       </div>
 

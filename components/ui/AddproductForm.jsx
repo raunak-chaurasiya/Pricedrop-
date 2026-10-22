@@ -7,18 +7,31 @@ import { Loader2, Plus, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { AuthModal } from "@/components/ui/AuthModal";
+import { DEMO_PRODUCTS } from "@/lib/demoProducts";
 
-export default function AddproductForm({ user, onProductAdded }) {
+export default function AddproductForm({ user, onProductAdded, onSelectDemo }) {
   const [productUrl, setProductUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const router = useRouter();
 
+  const handleDemoClick = (demo) => {
+    setProductUrl(demo.url);
+    if (onSelectDemo) {
+      onSelectDemo(demo);
+    }
+    toast.success(`Demo loaded: ${demo.shortLabel}! Check the live price trends below.`);
+    const el = document.getElementById("demo-preview-section");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!user) {
-      toast.info("Please sign in first to track products!");
+      toast.info("Please sign in first to track custom products!");
       setShowAuthModal(true);
       return;
     }
@@ -82,6 +95,24 @@ export default function AddproductForm({ user, onProductAdded }) {
               </>
             )}
           </Button>
+        </div>
+
+        {/* 1-Click Try Demo Pills */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mt-3.5">
+          <span className="text-xs font-semibold text-gray-500 flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5 text-orange-500 shrink-0" />
+            <span>Try 1-Click Demo:</span>
+          </span>
+          {DEMO_PRODUCTS.map((demo) => (
+            <button
+              key={demo.id}
+              type="button"
+              onClick={() => handleDemoClick(demo)}
+              className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-white/90 hover:bg-orange-50 text-gray-700 hover:text-orange-700 border border-orange-200/80 shadow-2xs hover:shadow-xs transition-all cursor-pointer active:scale-95"
+            >
+              <span>{demo.shortLabel}</span>
+            </button>
+          ))}
         </div>
       </form>
 
