@@ -194,7 +194,7 @@ export default function PriceHistoryModal({
           {/* Top Bar: Tabs & Action Links */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-gray-100 pb-3 pr-10 sm:pr-10">
             {/* Tab Buttons - sleek horizontal scroll with touch support */}
-            <div className="flex items-center bg-gray-100/90 p-1 rounded-xl text-xs font-semibold gap-1 self-stretch sm:self-auto overflow-x-auto max-w-full no-scrollbar">
+            <div className="flex items-center bg-gray-100/90 p-1 rounded-xl text-xs font-semibold gap-1 self-stretch sm:self-auto overflow-x-auto max-w-full sm:no-scrollbar">
               <button
                 type="button"
                 onClick={() => setActiveTab("chart")}
@@ -339,7 +339,7 @@ export default function PriceHistoryModal({
             {/* AI Deal Intelligence Card */}
             {verdict && (
               <div
-                className={`p-3 sm:p-4 rounded-2xl border mb-3.5 text-left transition-all ${
+                className={`p-3.5 sm:p-4 rounded-2xl border mb-3.5 text-left transition-all ${
                   verdict.verdict === "BUY_NOW"
                     ? "bg-emerald-50/70 border-emerald-200"
                     : verdict.verdict === "FAIR_PRICE"
@@ -347,7 +347,8 @@ export default function PriceHistoryModal({
                     : "bg-rose-50/70 border-rose-200"
                 }`}
               >
-                <div className="flex items-center justify-between gap-2 mb-1.5">
+                {/* Header row: label + score */}
+                <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                   <div className="flex items-center gap-1.5">
                     <Sparkles
                       className={`w-4 h-4 ${
@@ -392,13 +393,13 @@ export default function PriceHistoryModal({
                   {verdict.label}
                 </h4>
 
-                {/* Insight Description */}
-                <p className="text-xs text-gray-700 mt-1 leading-relaxed break-words">
+                {/* Insight Description - fully visible, no truncation */}
+                <p className="text-xs text-gray-700 mt-1.5 leading-relaxed break-words">
                   {verdict.insight}
                 </p>
 
                 {/* Score Progress Bar */}
-                <div className="w-full bg-gray-200/80 h-1.5 rounded-full overflow-hidden mt-2.5">
+                <div className="w-full bg-gray-200/80 h-1.5 rounded-full overflow-hidden mt-3">
                   <div
                     className={`h-full rounded-full transition-all duration-500 ${
                       verdict.verdict === "BUY_NOW"
@@ -414,13 +415,13 @@ export default function PriceHistoryModal({
             )}
 
             {/* Timeframe & Analytics Tag Header */}
-            <div className="flex items-center justify-between gap-2 mb-3 flex-wrap">
-              <div className="flex items-center gap-2 text-orange-600 font-semibold text-xs tracking-wider uppercase bg-orange-50 px-2.5 py-1 rounded-md shrink-0">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+              <div className="flex items-center gap-2 text-orange-600 font-semibold text-xs tracking-wider uppercase bg-orange-50 px-2.5 py-1 rounded-md shrink-0 w-fit">
                 <Tag className="w-3.5 h-3.5" /> Price Analytics
               </div>
 
               {/* Timeframe Filter Buttons */}
-              <div className="flex items-center bg-gray-100 p-1 rounded-xl text-xs font-semibold shrink-0 overflow-x-auto no-scrollbar">
+              <div className="flex items-center bg-gray-100 p-1 rounded-xl text-xs font-semibold shrink-0">
                 {["1M", "3M", "6M", "MAX"].map((tf) => (
                   <button
                     key={tf}
@@ -437,31 +438,31 @@ export default function PriceHistoryModal({
               </div>
             </div>
 
-            {/* Quick Stats Cards - 3 column responsive grid, fitting perfectly without horizontal overflow */}
-            <div className="grid grid-cols-3 gap-2 sm:gap-3 my-3">
-              <div className="bg-orange-50/70 p-2 sm:p-3.5 rounded-xl border border-orange-100 text-left min-w-0">
-                <span className="text-[10px] sm:text-xs text-gray-500 font-medium block truncate">
+            {/* Quick Stats Cards - vertical stack on mobile, 3-col grid on sm+ */}
+            <div className="flex flex-col sm:grid sm:grid-cols-3 gap-2 sm:gap-3 my-3">
+              <div className="flex items-center justify-between sm:block bg-orange-50/70 p-2.5 sm:p-3.5 rounded-xl border border-orange-100 text-left">
+                <span className="text-[11px] sm:text-xs text-gray-500 font-medium">
                   Current
                 </span>
-                <p className="text-xs sm:text-lg md:text-xl font-black text-gray-900 mt-0.5 truncate">
+                <p className="text-sm sm:text-lg md:text-xl font-black text-gray-900 sm:mt-0.5">
                   {product.currency}
                   {currentPrice.toLocaleString("en-IN")}
                 </p>
               </div>
-              <div className="bg-emerald-50/70 p-2 sm:p-3.5 rounded-xl border border-emerald-100 text-left min-w-0">
-                <span className="text-[10px] sm:text-xs text-gray-500 font-medium block truncate">
+              <div className="flex items-center justify-between sm:block bg-emerald-50/70 p-2.5 sm:p-3.5 rounded-xl border border-emerald-100 text-left">
+                <span className="text-[11px] sm:text-xs text-gray-500 font-medium">
                   Lowest
                 </span>
-                <p className="text-xs sm:text-lg md:text-xl font-black text-emerald-700 mt-0.5 truncate">
+                <p className="text-sm sm:text-lg md:text-xl font-black text-emerald-700 sm:mt-0.5">
                   {product.currency}
                   {minPrice.toLocaleString("en-IN")}
                 </p>
               </div>
-              <div className="bg-rose-50/70 p-2 sm:p-3.5 rounded-xl border border-rose-100 text-left min-w-0">
-                <span className="text-[10px] sm:text-xs text-gray-500 font-medium block truncate">
+              <div className="flex items-center justify-between sm:block bg-rose-50/70 p-2.5 sm:p-3.5 rounded-xl border border-rose-100 text-left">
+                <span className="text-[11px] sm:text-xs text-gray-500 font-medium">
                   Highest
                 </span>
-                <p className="text-xs sm:text-lg md:text-xl font-black text-rose-700 mt-0.5 truncate">
+                <p className="text-sm sm:text-lg md:text-xl font-black text-rose-700 sm:mt-0.5">
                   {product.currency}
                   {maxPrice.toLocaleString("en-IN")}
                 </p>
