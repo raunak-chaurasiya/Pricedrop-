@@ -46,14 +46,12 @@ export default function ShareDealModal({ product, isOpen, onClose }) {
   const shareMessage = `🔥 *Price Drop Alert on DealDrop!*
 
 📦 *${product.title}*
-💰 Current Price: *${currency}${currentPrice.toLocaleString("en-IN")}*${
-    highestPrice > currentPrice
+💰 Current Price: *${currency}${currentPrice.toLocaleString("en-IN")}*${highestPrice > currentPrice
       ? ` (Peak was ${currency}${highestPrice.toLocaleString("en-IN")})`
       : ""
-  }
-📉 Lowest Ever Recorded: *${currency}${lowestPrice.toLocaleString("en-IN")}*${
-    priceDropPct > 0 ? ` (${priceDropPct}% OFF Peak!)` : ""
-  }
+    }
+📉 Lowest Ever Recorded: *${currency}${lowestPrice.toLocaleString("en-IN")}*${priceDropPct > 0 ? ` (${priceDropPct}% OFF Peak!)` : ""
+    }
 ✨ AI Verdict: *${dealVerdict?.label || "Good Deal"}* (Score: ${dealVerdict?.score || 70}/100)
 
 🔗 Track or Buy here: ${product.url}`;
@@ -276,12 +274,12 @@ export default function ShareDealModal({ product, isOpen, onClose }) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[96vw] max-w-[96vw] sm:max-w-lg max-h-[92vh] overflow-y-auto overflow-x-hidden bg-white border border-gray-100 shadow-2xl rounded-2xl p-3.5 sm:p-6">
-        <DialogHeader>
+      <DialogContent className="w-[calc(100vw-1.25rem)] max-w-[calc(100vw-1.25rem)] sm:max-w-lg max-h-[92vh] overflow-y-auto overflow-x-hidden bg-white border border-gray-100 shadow-2xl rounded-2xl p-4 sm:p-6">
+        <DialogHeader className="pr-8 sm:pr-8">
           <div className="flex items-center gap-2 text-orange-600 font-semibold text-xs tracking-wider uppercase bg-orange-50 px-2.5 py-1 rounded-md w-fit">
             <Share2 className="w-3.5 h-3.5" /> Share Deal Card
           </div>
-          <DialogTitle className="text-lg font-bold text-gray-900 text-left mt-1">
+          <DialogTitle className="text-base sm:text-lg font-bold text-gray-900 text-left mt-1">
             Share Deal with Friends
           </DialogTitle>
           <DialogDescription className="text-gray-500 text-xs text-left">
@@ -324,13 +322,12 @@ export default function ShareDealModal({ product, isOpen, onClose }) {
           {/* AI Verdict Pill */}
           {dealVerdict && (
             <div
-              className={`flex items-center justify-between px-3 py-1.5 rounded-xl text-xs font-bold mb-2.5 border ${
-                dealVerdict.verdict === "BUY_NOW"
+              className={`flex items-center justify-between px-3 py-1.5 rounded-xl text-xs font-bold mb-2.5 border ${dealVerdict.verdict === "BUY_NOW"
                   ? "bg-emerald-950/70 border-emerald-500/40 text-emerald-300"
                   : dealVerdict.verdict === "FAIR_PRICE"
-                  ? "bg-amber-950/70 border-amber-500/40 text-amber-300"
-                  : "bg-rose-950/70 border-rose-500/40 text-rose-300"
-              }`}
+                    ? "bg-amber-950/70 border-amber-500/40 text-amber-300"
+                    : "bg-rose-950/70 border-rose-500/40 text-rose-300"
+                }`}
             >
               <div className="flex items-center gap-1.5 truncate">
                 <Sparkles className="w-3.5 h-3.5 shrink-0" />

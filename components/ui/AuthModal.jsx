@@ -70,7 +70,7 @@ export function AuthModal({ isOpen, onClose }) {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md bg-white border border-gray-100 shadow-xl rounded-2xl p-6">
+      <DialogContent className="w-[calc(100vw-1.25rem)] max-w-[calc(100vw-1.25rem)] sm:max-w-md bg-white border border-gray-100 shadow-xl rounded-2xl p-6">
         <DialogHeader className="text-center sm:text-center">
           <div className="mx-auto w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-3">
             <Mail className="w-6 h-6" />

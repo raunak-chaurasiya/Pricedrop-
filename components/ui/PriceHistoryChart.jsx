@@ -189,16 +189,16 @@ export default function PriceHistoryModal({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[96vw] max-w-[96vw] sm:max-w-3xl max-h-[92vh] overflow-y-auto overflow-x-hidden bg-white border border-gray-100 shadow-2xl rounded-2xl p-3.5 sm:p-6">
+      <DialogContent className="w-[calc(100vw-1.25rem)] max-w-[calc(100vw-1.25rem)] sm:max-w-3xl max-h-[92vh] overflow-y-auto overflow-x-hidden bg-white border border-gray-100 shadow-2xl rounded-2xl p-3 sm:p-6">
         <DialogHeader className="space-y-3">
           {/* Top Bar: Tabs & Action Links */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-gray-100 pb-3 pr-8 sm:pr-8">
-            {/* Tab Buttons - scrollable horizontally on mobile */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-gray-100 pb-3 pr-10 sm:pr-10">
+            {/* Tab Buttons - sleek horizontal scroll with touch support */}
             <div className="flex items-center bg-gray-100/90 p-1 rounded-xl text-xs font-semibold gap-1 self-stretch sm:self-auto overflow-x-auto max-w-full no-scrollbar">
               <button
                 type="button"
                 onClick={() => setActiveTab("chart")}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+                className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 text-[11px] sm:text-xs ${
                   activeTab === "chart"
                     ? "bg-white text-orange-600 shadow-xs font-bold"
                     : "text-gray-600 hover:text-gray-900"
@@ -211,7 +211,7 @@ export default function PriceHistoryModal({
               <button
                 type="button"
                 onClick={() => setActiveTab("gallery")}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+                className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 text-[11px] sm:text-xs ${
                   activeTab === "gallery"
                     ? "bg-white text-orange-600 shadow-xs font-bold"
                     : "text-gray-600 hover:text-gray-900"
@@ -229,7 +229,7 @@ export default function PriceHistoryModal({
               <button
                 type="button"
                 onClick={() => setActiveTab("features")}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+                className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 text-[11px] sm:text-xs ${
                   activeTab === "features"
                     ? "bg-white text-orange-600 shadow-xs font-bold"
                     : "text-gray-600 hover:text-gray-900"
@@ -247,7 +247,7 @@ export default function PriceHistoryModal({
               <button
                 type="button"
                 onClick={() => setActiveTab("similar")}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+                className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 text-[11px] sm:text-xs ${
                   activeTab === "similar"
                     ? "bg-white text-orange-600 shadow-xs font-bold"
                     : "text-gray-600 hover:text-gray-900"
@@ -271,7 +271,7 @@ export default function PriceHistoryModal({
                   size="sm"
                   onClick={onRefresh}
                   disabled={refreshing}
-                  className="h-7.5 sm:h-8 px-2 sm:px-2.5 text-xs text-gray-600 hover:text-orange-600 hover:bg-orange-50 gap-1.5"
+                  className="h-7.5 sm:h-8 px-2 sm:px-2.5 text-xs text-gray-600 hover:text-orange-600 hover:bg-orange-50 gap-1.5 cursor-pointer"
                   title="Refresh latest price and details"
                 >
                   <RefreshCw
@@ -437,31 +437,31 @@ export default function PriceHistoryModal({
               </div>
             </div>
 
-            {/* Quick Stats Cards - responsive flex on mobile with smooth horizontal scrolling */}
-            <div className="flex sm:grid sm:grid-cols-3 gap-2 sm:gap-3 my-3 overflow-x-auto pb-1 no-scrollbar">
-              <div className="flex-1 min-w-[105px] bg-orange-50/70 p-2.5 sm:p-3.5 rounded-xl border border-orange-100 text-left shrink-0 sm:shrink">
+            {/* Quick Stats Cards - 3 column responsive grid, fitting perfectly without horizontal overflow */}
+            <div className="grid grid-cols-3 gap-2 sm:gap-3 my-3">
+              <div className="bg-orange-50/70 p-2 sm:p-3.5 rounded-xl border border-orange-100 text-left min-w-0">
                 <span className="text-[10px] sm:text-xs text-gray-500 font-medium block truncate">
                   Current
                 </span>
-                <p className="text-sm sm:text-xl font-black text-gray-900 mt-0.5 truncate">
+                <p className="text-xs sm:text-lg md:text-xl font-black text-gray-900 mt-0.5 truncate">
                   {product.currency}
                   {currentPrice.toLocaleString("en-IN")}
                 </p>
               </div>
-              <div className="flex-1 min-w-[105px] bg-emerald-50/70 p-2.5 sm:p-3.5 rounded-xl border border-emerald-100 text-left shrink-0 sm:shrink">
+              <div className="bg-emerald-50/70 p-2 sm:p-3.5 rounded-xl border border-emerald-100 text-left min-w-0">
                 <span className="text-[10px] sm:text-xs text-gray-500 font-medium block truncate">
                   Lowest
                 </span>
-                <p className="text-sm sm:text-xl font-black text-emerald-700 mt-0.5 truncate">
+                <p className="text-xs sm:text-lg md:text-xl font-black text-emerald-700 mt-0.5 truncate">
                   {product.currency}
                   {minPrice.toLocaleString("en-IN")}
                 </p>
               </div>
-              <div className="flex-1 min-w-[105px] bg-rose-50/70 p-2.5 sm:p-3.5 rounded-xl border border-rose-100 text-left shrink-0 sm:shrink">
+              <div className="bg-rose-50/70 p-2 sm:p-3.5 rounded-xl border border-rose-100 text-left min-w-0">
                 <span className="text-[10px] sm:text-xs text-gray-500 font-medium block truncate">
                   Highest
                 </span>
-                <p className="text-sm sm:text-xl font-black text-rose-700 mt-0.5 truncate">
+                <p className="text-xs sm:text-lg md:text-xl font-black text-rose-700 mt-0.5 truncate">
                   {product.currency}
                   {maxPrice.toLocaleString("en-IN")}
                 </p>
@@ -499,73 +499,72 @@ export default function PriceHistoryModal({
               )}
             </div>
 
-            {/* Chart Area - scrollable horizontally on narrow mobile screens if needed */}
-            <div className="w-full overflow-x-auto pb-1 no-scrollbar">
-              <div className="min-w-[280px] sm:min-w-0 h-56 sm:h-72 w-full bg-linear-to-b from-orange-50/20 via-white to-orange-50/10 rounded-2xl p-2 sm:p-4 border border-gray-100 shadow-inner">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart
-                    data={formattedData}
-                    margin={{ top: 10, right: 10, left: -15, bottom: 0 }}
-                  >
-                    <defs>
-                      <linearGradient id="priceGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#f97316" stopOpacity={0.45} />
-                        <stop offset="95%" stopColor="#f97316" stopOpacity={0.02} />
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-                    <XAxis
-                      dataKey="date"
-                      tickLine={false}
-                      stroke="#9ca3af"
-                      fontSize={10}
-                      dy={5}
-                    />
-                    <YAxis
-                      tickLine={false}
-                      stroke="#9ca3af"
-                      fontSize={10}
-                      domain={[
-                        (dataMin) => Math.max(0, Math.floor(dataMin * 0.95)),
-                        (dataMax) => Math.ceil(dataMax * 1.05),
-                      ]}
-                      tickFormatter={(val) => `${product.currency}${val}`}
-                    />
-                    <Tooltip
-                      content={({ active, payload }) => {
-                        if (active && payload && payload.length) {
-                          const item = payload[0].payload;
-                          return (
-                            <div className="bg-gray-900 text-white px-3 py-2 rounded-xl shadow-xl border border-gray-800 text-xs">
-                              <p className="text-gray-400 text-[10px]">{item.fullDate}</p>
-                              <p className="font-extrabold text-orange-400 text-xs sm:text-sm mt-0.5">
-                                {product.currency}{" "}
-                                {Number(item.price).toLocaleString("en-IN")}
-                              </p>
-                            </div>
-                          );
-                        }
-                        return null;
-                      }}
-                    />
-                    <Area
-                      type="stepAfter"
-                      dataKey="price"
-                      stroke="#f97316"
-                      strokeWidth={2}
-                      fillOpacity={1}
-                      fill="url(#priceGradient)"
-                      dot={{
-                        r: 2.5,
-                        fill: "#f97316",
-                        strokeWidth: 1,
-                        stroke: "#ffffff",
-                      }}
-                      activeDot={{ r: 5, fill: "#ea580c" }}
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
+            {/* Chart Area - 100% responsive without arbitrary fixed min-widths */}
+            <div className="w-full h-56 sm:h-72 bg-linear-to-b from-orange-50/20 via-white to-orange-50/10 rounded-2xl p-2 sm:p-4 border border-gray-100 shadow-inner">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart
+                  data={formattedData}
+                  margin={{ top: 10, right: 12, left: -10, bottom: 0 }}
+                >
+                  <defs>
+                    <linearGradient id="priceGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#f97316" stopOpacity={0.45} />
+                      <stop offset="95%" stopColor="#f97316" stopOpacity={0.02} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+                  <XAxis
+                    dataKey="date"
+                    tickLine={false}
+                    stroke="#9ca3af"
+                    fontSize={10}
+                    dy={5}
+                  />
+                  <YAxis
+                    width={42}
+                    tickLine={false}
+                    stroke="#9ca3af"
+                    fontSize={10}
+                    domain={[
+                      (dataMin) => Math.max(0, Math.floor(dataMin * 0.95)),
+                      (dataMax) => Math.ceil(dataMax * 1.05),
+                    ]}
+                    tickFormatter={(val) => `${product.currency}${val}`}
+                  />
+                  <Tooltip
+                    content={({ active, payload }) => {
+                      if (active && payload && payload.length) {
+                        const item = payload[0].payload;
+                        return (
+                          <div className="bg-gray-900 text-white px-3 py-2 rounded-xl shadow-xl border border-gray-800 text-xs">
+                            <p className="text-gray-400 text-[10px]">{item.fullDate}</p>
+                            <p className="font-extrabold text-orange-400 text-xs sm:text-sm mt-0.5">
+                              {product.currency}{" "}
+                              {Number(item.price).toLocaleString("en-IN")}
+                            </p>
+                          </div>
+                        );
+                      }
+                      return null;
+                    }}
+                  />
+                  <Area
+                    type="stepAfter"
+                    dataKey="price"
+                    stroke="#f97316"
+                    strokeWidth={2}
+                    fillOpacity={1}
+                    fill="url(#priceGradient)"
+                    dot={{
+                      r: 2.5,
+                      fill: "#f97316",
+                      strokeWidth: 1,
+                      stroke: "#ffffff",
+                    }}
+                    activeDot={{ r: 5, fill: "#ea580c" }}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
             </div>
           </div>
         )}

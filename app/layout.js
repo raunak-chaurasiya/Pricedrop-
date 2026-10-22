@@ -20,7 +20,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${dmSans.className} min-h-screen flex flex-col antialiased bg-gray-50 text-gray-900`}>
+      <body className={`${dmSans.className} min-h-screen flex flex-col antialiased bg-gray-50 text-gray-900 overflow-x-hidden`}>
         {children}
         <Toaster position="top-right" richColors closeButton />
       </body>
