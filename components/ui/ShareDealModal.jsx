@@ -323,10 +323,10 @@ export default function ShareDealModal({ product, isOpen, onClose }) {
           {dealVerdict && (
             <div
               className={`flex items-center justify-between px-3 py-1.5 rounded-xl text-xs font-bold mb-2.5 border ${dealVerdict.verdict === "BUY_NOW"
-                  ? "bg-emerald-950/70 border-emerald-500/40 text-emerald-300"
-                  : dealVerdict.verdict === "FAIR_PRICE"
-                    ? "bg-amber-950/70 border-amber-500/40 text-amber-300"
-                    : "bg-rose-950/70 border-rose-500/40 text-rose-300"
+                ? "bg-emerald-950/70 border-emerald-500/40 text-emerald-300"
+                : dealVerdict.verdict === "FAIR_PRICE"
+                  ? "bg-amber-950/70 border-amber-500/40 text-amber-300"
+                  : "bg-rose-950/70 border-rose-500/40 text-rose-300"
                 }`}
             >
               <div className="flex items-center gap-1.5 truncate">

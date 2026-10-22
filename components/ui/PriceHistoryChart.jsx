@@ -189,10 +189,10 @@ export default function PriceHistoryModal({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[calc(100vw-1.25rem)] max-w-[calc(100vw-1.25rem)] sm:max-w-3xl max-h-[92vh] overflow-y-auto overflow-x-hidden bg-white border border-gray-100 shadow-2xl rounded-2xl p-3 sm:p-6">
+      <DialogContent className="w-[calc(100vw-1.25rem)] max-w-[calc(100vw-1.25rem)] sm:max-w-4xl lg:max-w-5xl max-h-[92vh] overflow-y-auto overflow-x-hidden bg-white border border-gray-100 shadow-2xl rounded-2xl p-4 sm:p-7 md:p-8">
         <DialogHeader className="space-y-3">
           {/* Top Bar: Tabs & Action Links */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-3 pr-10 sm:pr-10">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-3 pr-11 sm:pr-12">
             {/* Tab Buttons - horizontal scroll on mobile, normal static tabs on desktop */}
             <div className="flex items-center bg-gray-100/90 p-1 rounded-xl text-xs font-semibold gap-1 self-stretch sm:self-auto overflow-x-auto sm:overflow-visible max-w-full sm:max-w-none shrink-0 no-scrollbar">
               <button
